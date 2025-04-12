@@ -30,7 +30,7 @@ function handleUserMessage(message) {
   }, 800); // Simulate typing delay
 }
 
-// Function to return pre-programmed bot responses with fuzzy matching
+// Function to return pre-programmed bot responses with Fuse.js fuzzy matching
 function getBotResponse(userMessage) {
   const lowerMessage = userMessage.toLowerCase();
 
@@ -41,38 +41,25 @@ function getBotResponse(userMessage) {
     { question: 'your name', answer: "I am ThinkBot, your friendly assistant!" },
     { question: 'bye', answer: "Goodbye! Have a great day!" },
     { question: 'what is', answer: "Please provide more context, I can help with definitions or math problems." },
+    { question: 'what is 2+2', answer: "2 + 2 is 4." },
+    { question: 'what is the capital of france', answer: "The capital of France is Paris." }
   ];
 
-  // Fuzzy matching function (basic version)
-  const bestMatch = findBestMatch(lowerMessage, responses);
+  // Fuse.js options for fuzzy matching
+  const fuse = new Fuse(responses, {
+    keys: ['question'], // Search in the 'question' field
+    includeScore: true,  // Include match score in results
+    threshold: 0.3       // Adjust the threshold for fuzzy matching (lower is stricter)
+  });
 
-  if (bestMatch) {
-    return bestMatch.answer;
+  // Perform fuzzy search
+  const result = fuse.search(lowerMessage);
+
+  if (result.length > 0) {
+    return result[0].item.answer; // Return the answer of the best match
   }
 
   return "I'm not sure how to answer that yet. Want to teach me?";
-}
-
-// Simple fuzzy match based on substring occurrence (this can be more advanced)
-function findBestMatch(message, responses) {
-  let bestMatch = null;
-  let highestMatchScore = 0;
-
-  responses.forEach(response => {
-    const score = calculateMatchScore(message, response.question);
-    if (score > highestMatchScore) {
-      bestMatch = response;
-      highestMatchScore = score;
-    }
-  });
-
-  return bestMatch;
-}
-
-// A very basic similarity score function using substring occurrence
-function calculateMatchScore(message, question) {
-  const commonWords = message.split(' ').filter(word => question.includes(word));
-  return commonWords.length / question.split(' ').length;  // Simple ratio of matching words
 }
 
 // Send message when the button is clicked
