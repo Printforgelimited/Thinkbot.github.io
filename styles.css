@@ -27,3 +27,62 @@ overflow-y: scroll;
 .bot-message {
   animation: fadeIn 0.4s ease;
 }
+/* Add these to your existing CSS to style the typing circle and smooth text appearance */
+.typing-indicator {
+  align-self: flex-start;
+  padding: 0.75rem 1rem;
+  background: #e2e8f0;
+  color: #64748b;
+  font-style: italic;
+  border-radius: 1.5rem;
+  font-size: 0.95rem;
+  max-width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.typing-indicator::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #2563eb;
+  animation: typingAnimation 1.5s infinite ease-in-out;
+  margin-right: 0.5rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes typingAnimation {
+  0%, 100% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+}
+
+.chat-message {
+  padding: 0.75rem 1rem;
+  border-radius: 1.5rem;
+  line-height: 1.5;
+  max-width: 80%;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.bot-message {
+  background: #f1f5f9;
+  color: #111827;
+  align-self: flex-start;
+  border-bottom-left-radius: 0;
+  animation: fadeIn 0.4s ease;
+  white-space: pre-wrap; /* Allow the message to break across lines */
+  display: inline-block;
+}
