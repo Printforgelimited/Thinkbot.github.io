@@ -6,6 +6,26 @@
   <title>ThinkBot</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    /* Include the CSS from the previous response (no changes needed) */
+  </style>
+</head>
+<body>
+  <header>ThinkBot</header>
+  <div class="chat-container">
+    <div id="chat-box" class="chat-box"></div>
+    <div class="input-area">
+      <input type="text" id="user-input" placeholder="Ask me anything..." />
+      <button id="send-btn">Send</button>
+    </div>
+    <!-- Add a version selector -->
+    <select id="version-selector">
+      <option value="basic">Basic</option>
+      <option value="intermediate">Intermediate</option>
+      <option value="advanced">Advanced</option>
+    </select>
+  </div>
+  <script src="script.js"></script>
+
     * {
       box-sizing: border-box;
       font-family: 'Inter', sans-serif;
