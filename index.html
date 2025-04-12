@@ -15,18 +15,24 @@
 
     body {
       background: #f3f4f6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: #2563eb;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .chat-container {
       background: #ffffff;
-      border-radius: 1rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      width: 90%;
-      max-width: 500px;
+      flex: 1;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -36,7 +42,6 @@
       padding: 1rem;
       flex: 1;
       overflow-y: auto;
-      max-height: 70vh;
     }
 
     .chat-message {
@@ -88,6 +93,7 @@
   </style>
 </head>
 <body>
+  <header>ThinkBot</header>
   <div class="chat-container">
     <div id="chat-box" class="chat-box"></div>
     <div class="input-area">
@@ -95,8 +101,6 @@
       <button id="send-btn">Send</button>
     </div>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
-
