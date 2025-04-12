@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ThinkBot</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -24,7 +23,7 @@
     header {
       background-color: #2563eb;
       color: white;
-      padding: 1rem;
+      padding: 1.5rem;
       text-align: center;
       font-size: 1.5rem;
       font-weight: 600;
@@ -37,32 +36,35 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     }
 
     .chat-box {
-      padding: 1rem;
+      padding: 1.5rem;
       flex: 1;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 1rem;
     }
 
     .chat-message {
-      padding: 0.75rem 1rem;
-      border-radius: 1.5rem;
+      padding: 1rem;
+      border-radius: 20px;
       line-height: 1.5;
-      max-width: 80%;
       font-size: 1rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      max-width: 80%;
       transition: all 0.3s ease;
+      word-wrap: break-word;
     }
 
     .user-message {
-      background: linear-gradient(to right, #3b82f6, #2563eb);
+      background: #2563eb;
       color: white;
       align-self: flex-end;
       border-bottom-right-radius: 0;
+      animation: fadeIn 0.4s ease;
     }
 
     .bot-message {
@@ -75,11 +77,11 @@
 
     .typing-indicator {
       align-self: flex-start;
-      padding: 0.75rem 1rem;
+      padding: 1rem;
       background: #e2e8f0;
       color: #64748b;
       font-style: italic;
-      border-radius: 1.5rem;
+      border-radius: 20px;
       font-size: 0.95rem;
       max-width: 60%;
       animation: fadeIn 0.3s ease;
@@ -92,6 +94,7 @@
 
     .input-area {
       display: flex;
+      padding: 1rem;
       border-top: 1px solid #e5e7eb;
       background: #f9fafb;
     }
@@ -99,10 +102,12 @@
     #user-input {
       flex: 1;
       padding: 1rem;
-      border: none;
       font-size: 1rem;
       outline: none;
+      border: none;
       background: transparent;
+      border-radius: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     #send-btn {
@@ -114,10 +119,27 @@
       font-weight: bold;
       border-radius: 0 0 0 1rem;
       transition: background 0.3s;
+      margin-left: 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     #send-btn:hover {
       background: #1d4ed8;
+    }
+
+    /* Make it mobile responsive */
+    @media (max-width: 600px) {
+      .chat-box {
+        padding: 1rem;
+      }
+
+      #user-input {
+        padding: 0.8rem;
+      }
+
+      #send-btn {
+        padding: 0.8rem;
+      }
     }
   </style>
 </head>
