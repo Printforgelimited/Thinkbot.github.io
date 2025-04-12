@@ -1,4 +1,27 @@
-overflow-y: scroll;
+/* General reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Chat container */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f1f5f9;
+  border-radius: 10px;
+}
+
+.chat-box {
+  padding: 1rem;
+  flex-grow: 1;
+  overflow-y: auto;
   border-bottom: 2px solid #eee;
 }
 
@@ -7,11 +30,18 @@ overflow-y: scroll;
   padding: 10px;
   border-radius: 5px;
   max-width: 80%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  line-height: 1.5;
+  font-size: 1rem;
+  transition: all 0.3s ease;
 }
 
+/* Bot and user message styles */
 .bot-message {
   background-color: #e0e0e0;
   align-self: flex-start;
+  animation: fadeIn 0.4s ease;
+  white-space: pre-wrap; /* Allow the message to break across lines */
 }
 
 .user-message {
@@ -19,15 +49,8 @@ overflow-y: scroll;
   color: white;
   align-self: flex-end;
 }
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 
-.bot-message {
-  animation: fadeIn 0.4s ease;
-}
-/* Add these to your existing CSS to style the typing circle and smooth text appearance */
+/* Typing indicator */
 .typing-indicator {
   align-self: flex-start;
   padding: 0.75rem 1rem;
@@ -54,7 +77,7 @@ overflow-y: scroll;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(5px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -67,22 +90,40 @@ overflow-y: scroll;
   }
 }
 
-.chat-message {
-  padding: 0.75rem 1rem;
-  border-radius: 1.5rem;
-  line-height: 1.5;
-  max-width: 80%;
-  font-size: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+/* Input area styles */
+.input-area {
+  display: flex;
+  padding: 1rem;
+  border-top: 1px solid #e5e7eb;
+  background: #ffffff;
 }
 
-.bot-message {
-  background: #f1f5f9;
-  color: #111827;
-  align-self: flex-start;
-  border-bottom-left-radius: 0;
-  animation: fadeIn 0.4s ease;
-  white-space: pre-wrap; /* Allow the message to break across lines */
-  display: inline-block;
+#user-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 1.5rem;
+}
+
+#send-btn {
+  background: #2563eb;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 1.5rem;
+  cursor: pointer;
+}
+
+#send-btn:hover {
+  background: #1d4ed8;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .chat-box {
+    padding: 1rem;
+  }
+  #user-input, #send-btn {
+    padding: 0.8rem;
+  }
 }
