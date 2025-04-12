@@ -44,14 +44,17 @@ function getBotResponse(userMessage) {
     { question: 'bye', answer: "Goodbye! Have a great day!" },
     { question: 'what is', answer: "Please provide more context, I can help with definitions or math problems." },
     { question: 'what is 2+2', answer: "2 + 2 is 4." },
-    { question: 'what is the capital of france', answer: "The capital of France is Paris." }
+    { question: 'what is the capital of france', answer: "The capital of France is Paris." },
+    // More sample responses for testing
+    { question: 'who are you', answer: "I am ThinkBot, your chatbot!" },
+    { question: 'how do you work', answer: "I work by understanding your questions and providing the best possible response." }
   ];
 
   // Fuse.js options for fuzzy matching
   const fuse = new Fuse(responses, {
     keys: ['question'], // Search in the 'question' field
     includeScore: true,  // Include match score in results
-    threshold: 0.4,      // Lowered threshold for better matching flexibility
+    threshold: 0.4,      // Lower threshold for better matching flexibility
     useExtendedSearch: true  // Allow partial matches (like "whats" for "what's")
   });
 
