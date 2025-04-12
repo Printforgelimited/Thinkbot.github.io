@@ -1,3 +1,4 @@
+console.log('Script loaded!');
 const sendButton = document.getElementById('send-btn');
 const userInput = document.getElementById('user-input');
 const chatBox = document.getElementById('chat-box');
