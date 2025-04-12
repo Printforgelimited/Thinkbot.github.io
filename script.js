@@ -80,6 +80,7 @@ function getBotResponse(userMessage) {
   // Perform fuzzy search
   const result = fuse.search(lowerMessage);
 
+  // Return the best matching response
   if (result.length > 0 && result[0].score < 0.4) {
     return result[0].item.answer; // Return the answer of the best match
   }
