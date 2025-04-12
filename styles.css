@@ -1,25 +1,4 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-}
-
-.chat-container {
-  width: 400px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-.chat-box {
-  height: 300px;
-  padding: 10px;
-  overflow-y: scroll;
+overflow-y: scroll;
   border-bottom: 2px solid #eee;
 }
 
@@ -39,25 +18,4 @@ body {
   background-color: #0084ff;
   color: white;
   align-self: flex-end;
-}
-
-.user-input {
-  width: 80%;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  margin: 10px;
-}
-
-.send-btn {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  background-color: #0084ff;
-  color: white;
-  cursor: pointer;
-}
-
-.send-btn:disabled {
-  background-color: #ccc;
 }
