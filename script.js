@@ -15,7 +15,7 @@ function handleUserMessage(message) {
   // Typing indicator
   const typingIndicator = document.createElement('div');
   typingIndicator.classList.add('typing-indicator');
-  typingIndicator.textContent = 'ThinkBot is typing...';
+  typingIndicator.innerHTML = '<span></span>'; // Empty span for typing effect
   chatBox.appendChild(typingIndicator);
   chatBox.scrollTop = chatBox.scrollHeight;
 
@@ -24,13 +24,26 @@ function handleUserMessage(message) {
     const botResponse = getBotResponse(message); // Get response based on the selected version
     chatBox.removeChild(typingIndicator); // Remove typing indicator
 
-    // Display bot response
-    const botMessage = document.createElement('div');
-    botMessage.classList.add('chat-message', 'bot-message');
-    botMessage.textContent = botResponse;
-    chatBox.appendChild(botMessage);
-    chatBox.scrollTop = chatBox.scrollHeight;
+    // Display bot response with typing effect
+    displayBotResponseWithTypingEffect(botResponse);
   }, 1500); // Wait 1.5 seconds before displaying response
+}
+
+// Function to simulate typing effect for bot responses
+function displayBotResponseWithTypingEffect(response) {
+  const botMessage = document.createElement('div');
+  botMessage.classList.add('chat-message', 'bot-message');
+  chatBox.appendChild(botMessage);
+
+  let index = 0;
+  const typingInterval = setInterval(() => {
+    botMessage.textContent += response.charAt(index); // Append one character at a time
+    index++;
+
+    if (index === response.length) {
+      clearInterval(typingInterval); // Stop typing effect when the response is fully displayed
+    }
+  }, 100); // Adjust the interval to make the typing effect faster or slower
 }
 
 // Function to return pre-programmed bot responses based on version
