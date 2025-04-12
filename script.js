@@ -1,106 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ThinkBot</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
+console.log('ThinkBot loaded');
 
-    body {
-      background: #f3f4f6;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+const sendButton = document.getElementById('send-btn');
+const userInput = document.getElementById('user-input');
+const chatBox = document.getElementById('chat-box');
 
-    header {
-      background-color: #2563eb;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: 600;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
+let brain = {};
 
-    .chat-container {
-      background: #ffffff;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
+// Load the brain.json file
+fetch('brain.json')
+  .then(response => response.json())
+  .then(data => {
+    brain = data;
+    console.log('ThinkBot brain loaded');
+  })
+  .catch(error => {
+    console.error('Error loading brain:', error);
+  });
 
-    .chat-box {
-      padding: 1rem;
-      flex: 1;
-      overflow-y: auto;
-    }
+// Handle sending message
+function handleUserMessage(message) {
+  addMessage(message, 'user-message');
 
-    .chat-message {
-      margin: 0.5rem 0;
-      padding: 0.75rem 1rem;
-      border-radius: 1rem;
-      line-height: 1.4;
-      max-width: 80%;
-    }
+  const lowerMessage = message.toLowerCase().trim();
+  let response = brain[lowerMessage] || "I'm not sure about that. Try asking another question.";
 
-    .user-message {
-      background: #2563eb;
-      color: white;
-      align-self: flex-end;
-    }
+  setTimeout(() => addMessage(response, 'bot-message'), 500);
+}
 
-    .bot-message {
-      background: #e5e7eb;
-      color: #111827;
-      align-self: flex-start;
-    }
+function addMessage(text, className) {
+  const messageDiv = document.createElement('div');
+  messageDiv.classList.add('chat-message', className);
+  messageDiv.textContent = text;
+  chatBox.appendChild(messageDiv);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
 
-    .input-area {
-      display: flex;
-      border-top: 1px solid #e5e7eb;
-    }
+sendButton.addEventListener('click', () => {
+  const message = userInput.value.trim();
+  if (message) {
+    handleUserMessage(message);
+    userInput.value = '';
+  }
+});
 
-    #user-input {
-      flex: 1;
-      padding: 1rem;
-      border: none;
-      font-size: 1rem;
-      outline: none;
-    }
-
-    #send-btn {
-      background: #2563eb;
-      color: white;
-      border: none;
-      padding: 1rem 1.5rem;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-
-    #send-btn:hover {
-      background: #1d4ed8;
-    }
-  </style>
-</head>
-<body>
-  <header>ThinkBot</header>
-  <div class="chat-container">
-    <div id="chat-box" class="chat-box"></div>
-    <div class="input-area">
-      <input type="text" id="user-input" placeholder="Ask me anything..." />
-      <button id="send-btn">Send</button>
-    </div>
-  </div>
-  <script src="script.js"></script>
-</body>
-</html>
+userInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    sendButton.click();
+  }
+});
