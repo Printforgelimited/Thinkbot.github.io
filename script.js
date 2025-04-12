@@ -103,3 +103,9 @@ userInput.addEventListener('keypress', (e) => {
     sendButton.click();
   }
 });
+
+// Disable the button temporarily to prevent multiple clicks
+sendButton.addEventListener('click', () => {
+  sendButton.disabled = true;
+  setTimeout(() => sendButton.disabled = false, 2000); // Re-enable button after 2 seconds
+});
