@@ -42,6 +42,29 @@ sendButton.addEventListener('click', () => {
     userInput.value = '';
   }
 });
+function typeBotMessage(text, className) {
+  const messageDiv = document.createElement('div');
+  messageDiv.classList.add('chat-message', className);
+  chatBox.appendChild(messageDiv);
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  let index = 0;
+  const typingSpeed = 25;
+
+  function typeChar() {
+    if (index < text.length) {
+      messageDiv.textContent += text.charAt(index);
+      index++;
+      chatBox.scrollTop = chatBox.scrollHeight;
+      setTimeout(typeChar, typingSpeed);
+    }
+  }
+
+  typeChar();
+}
+
+// Replace inside handleUserMessage:
+setTimeout(() => typeBotMessage(response, 'bot-message'), 500);
 
 userInput.addEventListener('keypress', (e) => {
   if (e.key === 'Enter') {
