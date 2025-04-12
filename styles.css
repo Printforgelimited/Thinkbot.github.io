@@ -64,8 +64,10 @@ body {
   justify-content: center;
   align-items: center;
   animation: fadeIn 0.3s ease;
+  overflow: hidden; /* Ensures the typing effect stays contained */
 }
 
+/* Positioning the circle in front of the text */
 .typing-indicator::before {
   content: '';
   width: 10px;
@@ -74,19 +76,41 @@ body {
   background-color: #2563eb;
   animation: typingAnimation 1.5s infinite ease-in-out;
   margin-right: 0.5rem;
+  position: relative;
 }
 
+/* Typing animation */
+.typing-indicator span {
+  display: inline-block;
+  opacity: 0;
+  animation: typeEffect 2s steps(20) forwards;
+}
+
+/* Fade-in effect for chat */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(5px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Typing circle scaling effect */
 @keyframes typingAnimation {
   0%, 100% {
     transform: scale(0);
   }
   50% {
     transform: scale(1);
+  }
+}
+
+/* Typing text effect */
+@keyframes typeEffect {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
   }
 }
 
