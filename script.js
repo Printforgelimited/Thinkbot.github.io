@@ -30,26 +30,49 @@ function handleUserMessage(message) {
   }, 800); // Simulate typing delay
 }
 
-// Function to return pre-programmed bot responses
+// Function to return pre-programmed bot responses with fuzzy matching
 function getBotResponse(userMessage) {
   const lowerMessage = userMessage.toLowerCase();
 
-  if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
-    return "Hello! How can I help you today?";
-  } else if (lowerMessage.includes('how are you')) {
-    return "I'm doing great, thank you for asking!";
-  } else if (lowerMessage.includes('your name')) {
-    return "I am ThinkBot, your friendly assistant!";
-  } else if (lowerMessage.includes('bye')) {
-    return "Goodbye! Have a great day!";
-  } else if (lowerMessage.includes('what is')) {
-    try {
-      const result = eval(lowerMessage.replace('what is', ''));
-      if (!isNaN(result)) return `The answer is ${result}`;
-    } catch (e) {}
+  const responses = [
+    { question: 'hello', answer: "Hello! How can I help you today?" },
+    { question: 'hi', answer: "Hello! How can I help you today?" },
+    { question: 'how are you', answer: "I'm doing great, thank you for asking!" },
+    { question: 'your name', answer: "I am ThinkBot, your friendly assistant!" },
+    { question: 'bye', answer: "Goodbye! Have a great day!" },
+    { question: 'what is', answer: "Please provide more context, I can help with definitions or math problems." },
+  ];
+
+  // Fuzzy matching function (basic version)
+  const bestMatch = findBestMatch(lowerMessage, responses);
+
+  if (bestMatch) {
+    return bestMatch.answer;
   }
 
   return "I'm not sure how to answer that yet. Want to teach me?";
+}
+
+// Simple fuzzy match based on substring occurrence (this can be more advanced)
+function findBestMatch(message, responses) {
+  let bestMatch = null;
+  let highestMatchScore = 0;
+
+  responses.forEach(response => {
+    const score = calculateMatchScore(message, response.question);
+    if (score > highestMatchScore) {
+      bestMatch = response;
+      highestMatchScore = score;
+    }
+  });
+
+  return bestMatch;
+}
+
+// A very basic similarity score function using substring occurrence
+function calculateMatchScore(message, question) {
+  const commonWords = message.split(' ').filter(word => question.includes(word));
+  return commonWords.length / question.split(' ').length;  // Simple ratio of matching words
 }
 
 // Send message when the button is clicked
@@ -57,7 +80,7 @@ sendButton.addEventListener('click', () => {
   const message = userInput.value.trim();
   if (message) {
     handleUserMessage(message);
-    userInput.value = '';
+    userInput.value = ''; // Clear input after sending
   }
 });
 
