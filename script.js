@@ -18,16 +18,18 @@ function handleUserMessage(message) {
   chatBox.appendChild(typingIndicator);
   chatBox.scrollTop = chatBox.scrollHeight;
 
+  // Simulate delay for typing indicator
   setTimeout(() => {
-    const botResponse = getBotResponse(message);
-    chatBox.removeChild(typingIndicator);
+    const botResponse = getBotResponse(message); // Get response based on the user's message
+    chatBox.removeChild(typingIndicator); // Remove typing indicator
 
+    // Display bot response
     const botMessage = document.createElement('div');
     botMessage.classList.add('chat-message', 'bot-message');
     botMessage.textContent = botResponse;
     chatBox.appendChild(botMessage);
     chatBox.scrollTop = chatBox.scrollHeight;
-  }, 800); // Simulate typing delay
+  }, 1500); // Wait 1.5 seconds before displaying response
 }
 
 // Function to return pre-programmed bot responses with Fuse.js fuzzy matching
