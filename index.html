@@ -1,19 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Chatbot</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThinkBot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #f3f4f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      background: #ffffff;
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-box {
+      padding: 1rem;
+      flex: 1;
+      overflow-y: auto;
+      max-height: 70vh;
+    }
+
+    .chat-message {
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      border-radius: 1rem;
+      line-height: 1.4;
+      max-width: 80%;
+    }
+
+    .user-message {
+      background: #2563eb;
+      color: white;
+      align-self: flex-end;
+    }
+
+    .bot-message {
+      background: #e5e7eb;
+      color: #111827;
+      align-self: flex-start;
+    }
+
+    .input-area {
+      display: flex;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    #user-input {
+      flex: 1;
+      padding: 1rem;
+      border: none;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    #send-btn {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    #send-btn:hover {
+      background: #1d4ed8;
+    }
+  </style>
 </head>
 <body>
   <div class="chat-container">
-    <div id="chat-box" class="chat-box">
-      <div class="chat-message bot-message">Hello! How can I assist you today?</div>
+    <div id="chat-box" class="chat-box"></div>
+    <div class="input-area">
+      <input type="text" id="user-input" placeholder="Ask me anything..." />
+      <button id="send-btn">Send</button>
     </div>
-    <input type="text" id="user-input" class="user-input" placeholder="Type your message...">
-    <button id="send-btn" class="send-btn">Send</button>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
+
