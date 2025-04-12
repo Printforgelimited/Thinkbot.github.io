@@ -1,124 +1,81 @@
 console.log('Script loaded!');
-const sendButton = document.getElementById('send-btn');
-const userInput = document.getElementById('user-input');
-const chatBox = document.getElementById('chat-box');
-const versionSelector = document.getElementById('version-selector');
 
-// Function to handle user messages and responses
-function handleUserMessage(message) {
+// Dark Mode Toggle Script
+const darkModeToggle = document.getElementById('dark-mode-toggle');
+darkModeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  if (document.body.classList.contains('dark-mode')) {
+    darkModeToggle.textContent = '🌞';  // Change to Sun icon
+  } else {
+    darkModeToggle.textContent = '🌙';  // Change to Moon icon
+  }
+});
+
+// Get bot response from OpenAI API
+async function getBotResponse(userMessage) {
+  const apiKey = 'your-openai-api-key'; // Replace with your OpenAI API key
+  const model = 'gpt-4';  // Or use 'gpt-3.5-turbo'
+
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: model,
+      messages: [
+        { role: 'system', content: 'You are a helpful assistant.' },
+        { role: 'user', content: userMessage },
+      ],
+    }),
+  });
+
+  const data = await response.json();
+  return data.choices[0].message.content; // Bot response
+}
+
+// Handle user input and display chat
+async function handleUserMessage(message) {
   const userMessage = document.createElement('div');
   userMessage.classList.add('chat-message', 'user-message');
   userMessage.textContent = message;
-  chatBox.appendChild(userMessage);
-  chatBox.scrollTop = chatBox.scrollHeight;
+  document.getElementById('chat-box').appendChild(userMessage);
+  document.getElementById('chat-box').scrollTop = document.getElementById('chat-box').scrollHeight;
 
   // Typing indicator
   const typingIndicator = document.createElement('div');
   typingIndicator.classList.add('typing-indicator');
-  typingIndicator.innerHTML = '<span></span>'; // Empty span for typing effect
-  chatBox.appendChild(typingIndicator);
-  chatBox.scrollTop = chatBox.scrollHeight;
+  typingIndicator.textContent = 'ThinkBot is typing...';
+  document.getElementById('chat-box').appendChild(typingIndicator);
+  document.getElementById('chat-box').scrollTop = document.getElementById('chat-box').scrollHeight;
 
   // Simulate delay for typing indicator
-  setTimeout(() => {
-    const botResponse = getBotResponse(message); // Get response based on the selected version
-    chatBox.removeChild(typingIndicator); // Remove typing indicator
+  setTimeout(async () => {
+    const botResponse = await getBotResponse(message); // Fetch response from OpenAI
+    document.getElementById('chat-box').removeChild(typingIndicator); // Remove typing indicator
 
-    // Display bot response with typing effect
-    displayBotResponseWithTypingEffect(botResponse);
+    // Display bot response
+    const botMessage = document.createElement('div');
+    botMessage.classList.add('chat-message', 'bot-message');
+    botMessage.textContent = botResponse;
+    document.getElementById('chat-box').appendChild(botMessage);
+    document.getElementById('chat-box').scrollTop = document.getElementById('chat-box').scrollHeight;
   }, 1500); // Wait 1.5 seconds before displaying response
 }
 
-// Function to simulate typing effect for bot responses
-function displayBotResponseWithTypingEffect(response) {
-  const botMessage = document.createElement('div');
-  botMessage.classList.add('chat-message', 'bot-message');
-  chatBox.appendChild(botMessage);
-
-  let index = 0;
-  const typingInterval = setInterval(() => {
-    botMessage.textContent += response.charAt(index); // Append one character at a time
-    index++;
-
-    if (index === response.length) {
-      clearInterval(typingInterval); // Stop typing effect when the response is fully displayed
-    }
-  }, 100); // Adjust the interval to make the typing effect faster or slower
-}
-
-// Function to return pre-programmed bot responses based on version
-function getBotResponse(userMessage) {
-  const lowerMessage = userMessage.toLowerCase();
-  const selectedVersion = versionSelector.value;
-
-  let responses = [];
-
-  // Define responses for different versions
-  if (selectedVersion === 'basic') {
-    responses = [
-      { question: 'hello', answer: "Hello! How can I help you today?" },
-      { question: 'hi', answer: "Hello! How can I help you today?" },
-      { question: 'how are you', answer: "I'm doing great, thank you for asking!" },
-      { question: 'your name', answer: "I am ThinkBot, your friendly assistant!" }
-    ];
-  } else if (selectedVersion === 'intermediate') {
-    responses = [
-      { question: 'hello', answer: "Hello! How can I assist you today?" },
-      { question: 'hi', answer: "Hello! How can I help you today?" },
-      { question: 'how are you', answer: "I'm doing well, thank you for asking!" },
-      { question: 'your name', answer: "I am ThinkBot, designed to help you with a variety of tasks!" },
-      { question: 'what is 2+2', answer: "2 + 2 equals 4." },
-      { question: 'what is the capital of france', answer: "The capital of France is Paris." }
-    ];
-  } else if (selectedVersion === 'advanced') {
-    responses = [
-      { question: 'hello', answer: "Hello! I'm ThinkBot, ready to help with anything!" },
-      { question: 'hi', answer: "Hi there! How can I assist you today?" },
-      { question: 'how are you', answer: "I'm doing great, thanks for asking!" },
-      { question: 'your name', answer: "I am ThinkBot, an advanced AI chatbot." },
-      { question: 'what is the weather today', answer: "I can look up the weather for you if you enable that feature!" },
-      { question: 'what is the square root of 16', answer: "The square root of 16 is 4." },
-      { question: 'calculate 45*9', answer: "45 * 9 equals 405." }
-    ];
-  }
-
-  // Fuse.js options for fuzzy matching
-  const fuse = new Fuse(responses, {
-    keys: ['question'], // Search in the 'question' field
-    includeScore: true,  // Include match score in results
-    threshold: 0.4,      // Lower threshold for better matching flexibility
-    useExtendedSearch: true  // Allow partial matches (like "whats" for "what's")
-  });
-
-  // Perform fuzzy search
-  const result = fuse.search(lowerMessage);
-
-  // Return the best matching response
-  if (result.length > 0 && result[0].score < 0.4) {
-    return result[0].item.answer; // Return the answer of the best match
-  }
-
-  return "I'm not sure how to answer that yet. Want to teach me?";
-}
-
 // Send message when the button is clicked
-sendButton.addEventListener('click', () => {
-  const message = userInput.value.trim();
+document.getElementById('send-btn').addEventListener('click', () => {
+  const message = document.getElementById('user-input').value.trim();
   if (message) {
     handleUserMessage(message);
-    userInput.value = ''; // Clear input after sending
+    document.getElementById('user-input').value = ''; // Clear input after sending
   }
 });
 
 // Send message when the user presses "Enter"
-userInput.addEventListener('keypress', (e) => {
+document.getElementById('user-input').addEventListener('keypress', (e) => {
   if (e.key === 'Enter') {
-    sendButton.click();
+    document.getElementById('send-btn').click();
   }
-});
-
-// Disable the button temporarily to prevent multiple clicks
-sendButton.addEventListener('click', () => {
-  sendButton.disabled = true;
-  setTimeout(() => sendButton.disabled = false, 2000); // Re-enable button after 2 seconds
 });
