@@ -49,13 +49,14 @@ function getBotResponse(userMessage) {
   const fuse = new Fuse(responses, {
     keys: ['question'], // Search in the 'question' field
     includeScore: true,  // Include match score in results
-    threshold: 0.3       // Adjust the threshold for fuzzy matching (lower is stricter)
+    threshold: 0.4,      // Lowered threshold for better matching flexibility
+    useExtendedSearch: true  // Allow partial matches (like "whats" for "what's")
   });
 
   // Perform fuzzy search
   const result = fuse.search(lowerMessage);
 
-  if (result.length > 0) {
+  if (result.length > 0 && result[0].score < 0.4) {
     return result[0].item.answer; // Return the answer of the best match
   }
 
