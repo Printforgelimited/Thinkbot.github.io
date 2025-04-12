@@ -58,7 +58,7 @@ async function getBotResponse(userMessage) {
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
-      "Authorization": "Bearer YOUR_API_KEY_HERE",  
+      "Authorization": "Bearer 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",  
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
